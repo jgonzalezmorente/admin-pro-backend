@@ -100,13 +100,35 @@ const googleSignIn = async ( req, res = response ) => {
         });        
         
     }
+}
 
 
+const renewToken = async ( req, res = response ) => {
+
+    const uid = req.uid;
+    
+    try {
+        // Generar el TOKEN - JWT
+        const token = await generarJWT( uid );   
+
+        res.json({
+            ok: true,
+            token
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Habla con el administrador'
+        });
+    }
+    
 }
 
 
 
 module.exports = {
     login,
-    googleSignIn
+    googleSignIn,
+    renewToken
 }
