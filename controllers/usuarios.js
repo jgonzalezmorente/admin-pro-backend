@@ -19,7 +19,7 @@ const getUsuarios = async(req, res) => {
     const [ usuarios, total ] = await Promise.all([
         
         Usuario
-            .find({}, 'nombre email rol google img')
+            .find({}, 'role nombre email rol google img')
             .skip( desde )
             .limit( 5 ),
 
@@ -27,7 +27,7 @@ const getUsuarios = async(req, res) => {
 
     ]);
 
-    res.status(400).json({
+    res.json({
         ok: true,
         usuarios,
         total
@@ -36,7 +36,7 @@ const getUsuarios = async(req, res) => {
 
 
 
-const crearUsuario = async(req, res = response) => {
+const crearUsuario = async( req, res = response ) => {
     
     const { email, password } = req.body;
 
@@ -59,7 +59,7 @@ const crearUsuario = async(req, res = response) => {
         // Generar el TOKEN - JWT
         const token = await generarJWT( usuario.id );
         
-        res.status(400).json({
+        res.json({
             ok: true,
             usuario,
             token
@@ -106,7 +106,15 @@ const actualizarUsuario = async (req, res) => {
             }
         }
 
-        campos.email = email;
+        if ( !usuarioDB.google ) {            
+            campos.email = email;
+        } else if ( usuarioDB.email !== email ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuario de google no puede cambiar el correo'
+            });
+        }
+
         const usuarioActualizado = await Usuario.findByIdAndUpdate( uid, campos, { new: true } );
         
         res.json({
