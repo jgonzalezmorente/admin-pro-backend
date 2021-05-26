@@ -4,7 +4,7 @@
 */
 
 const { Router } = require('express');
-const { validarJWT } = require('../middlewares/validar-jwt');
+const { validarJWT } = require('../middlewares/validarJWT');
 const { getTodo, getDocumentosColeccion } = require('../controllers/busquedas');
 
 const router = Router();

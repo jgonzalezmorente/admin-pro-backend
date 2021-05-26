@@ -6,7 +6,7 @@
 const { Router } = require('express');
 const expressFileUpload = require('express-fileupload');
 
-const { validarJWT } = require('../middlewares/validar-jwt');
+const { validarJWT } = require('../middlewares/validarJWT');
 const { fileUpload, retornaImagen } = require('../controllers/uploads')
 
 const router = Router();
