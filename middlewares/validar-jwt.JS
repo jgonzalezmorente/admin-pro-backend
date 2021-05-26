@@ -64,7 +64,6 @@ const validarADMIN_ROLE = async ( req, res, next ) => {
         });
         
     }
-
 };
 
 
